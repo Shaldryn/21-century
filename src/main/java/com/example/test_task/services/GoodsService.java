@@ -33,4 +33,9 @@ public class GoodsService {
     public List<Goods> getAllGoodsById(Long id) {
         return goodsRepository.findById(id).stream().collect(Collectors.toList());
     }
+
+    // согласен, костыльно выглядит...
+    public Goods getGoodsById(Long id) {
+        return goodsRepository.findById(id).get();
+    }
 }

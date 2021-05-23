@@ -3,6 +3,7 @@ package com.example.test_task.controllers;
 import com.example.test_task.entities.Goods;
 import com.example.test_task.repositories.GoodsRepository;
 import com.example.test_task.services.GoodsService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +20,6 @@ public class GoodsController {
         this.goodsService = goodsService;
     }
 
-//    @GetMapping
-//    public String showGoods(Model model) {
-//        model.addAttribute("items", goodsService.getAllGoods());
-//        model.addAttribute("item", new Goods());
-//        return "items-list";
-//    }
-
     @GetMapping
     public String showGoodsWithFilter(Model model, @RequestParam(value = "id", required = false) Long id) {
         if (id == null) {
@@ -38,8 +32,22 @@ public class GoodsController {
         return "items-list";
     }
 
-    @PostMapping("/add")
-    public String newGoods(Goods item) {
+    @GetMapping("/add")
+    public String showAddGoodsForm(Model model) {
+        Goods goods = new Goods();
+        model.addAttribute("item", goods);
+        return "item-edit";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditGoodsForm(Model model, @PathVariable("id") Long id) {
+        Goods goods = goodsService.getGoodsById(id);
+        model.addAttribute("item", goods);
+        return "item-edit";
+    }
+
+    @PostMapping("/edit")
+    public String modifyGoods(@ModelAttribute(value = "item")Goods item) {
         goodsService.addGoods(item);
         return "redirect:/items-list";
     }
