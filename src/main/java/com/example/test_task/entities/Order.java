@@ -22,8 +22,16 @@ public class Order {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderLine> orderLines;
+
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
 
     public Long getId() {
         return id;
