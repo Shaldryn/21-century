@@ -46,7 +46,7 @@ public class OrderController {
         orderLines.forEach(orderLine -> orderLine.setOrder(order));
         order.setOrderLines(orderLines);
         model.addAttribute("order", order);
-        model.addAttribute("orderLines", orderLines);
+       // model.addAttribute("orderLines", orderLines);
         return "order-edit";
     }
 
