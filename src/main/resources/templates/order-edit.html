@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Работа с товарами</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<h3 th:text="${order.id == null ? 'Создание заказа' : 'Изменение Заказа'}"></h3>
+<div class="container">
+    <form method="post" th:action="@{/orders/save}"
+          id="save"
+          th:object="${order}" class="form-horizontal">
+
+        <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input th:field="${order.id}" placeholder="id (*)" class="form-control" hidden/>
+        </div>
+
+        <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="text" th:field="${order.client}" class="form-control" placeholder="Клиент"
+                   aria-label="Клиент" aria-describedby="basic-addon2">
+        </div>
+
+        <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="date" th:field="${order.date}" class="form-control" placeholder="Дата заказа"
+                   aria-label="Дата заказа" aria-describedby="basic-addon2">
+        </div>
+
+        <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="text" th:field="${order.address}" class="form-control" placeholder="Адрес доставки"
+                   aria-label="Адрес доставки" aria-describedby="basic-addon2">
+        </div>
+    </form>
+
+    <div class="form-row">
+        <form th:method="get" th:action="@{/items-list/select}"
+            th:object="${order}">
+            <input type="hidden" name="orderid" th:value="${order.id}">
+            <button type="submit" class="btn btn-outline-info">Добавить товары</button>
+        </form>
+        <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Товар</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+<!--            <tr th:each="line, index : ${orderLines}">-->
+<!--                <th:block  th:object="${line}">-->
+<!--                    <td>-->
+<!--                        <input type="text" th:text="${index.index}" class="form-control" aria-describedby="basic-addon2"/>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <input type="text" th:text="*{good.name}" th:field="*{good}" class="form-control" aria-describedby="basic-addon2">-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <input type="text" th:field="*{count}" class="form-control" aria-describedby="basic-addon2">-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <input type="text" th:text="*{good.price}" class="form-control" aria-describedby="basic-addon2">-->
+<!--                    </td>-->
+<!--                </th:block>-->
+<!--            </tr>-->
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 10px" class="form-group">
+        <div class="col-sm-6 controls">
+            <button type="submit" form="save" class="btn btn-primary">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

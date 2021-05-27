@@ -1,6 +1,8 @@
 package com.example.test_task.controllers;
 
+import com.example.test_task.dto.Foo;
 import com.example.test_task.entities.Goods;
+import com.example.test_task.entities.Order;
 import com.example.test_task.repositories.GoodsRepository;
 import com.example.test_task.services.GoodsService;
 import org.dom4j.rule.Mode;
@@ -8,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/items-list")
@@ -47,7 +52,7 @@ public class GoodsController {
     }
 
     @PostMapping("/edit")
-    public String modifyGoods(@ModelAttribute(value = "item")Goods item) {
+    public String modifyGoods(@ModelAttribute(value = "item") Goods item) {
         goodsService.addGoods(item);
         return "redirect:/items-list";
     }
@@ -56,6 +61,16 @@ public class GoodsController {
     public String removeGoods(@PathVariable("id") Long id) {
         goodsService.deleteGoods(id);
         return "redirect:/items-list";
+    }
+
+    @GetMapping("/select")
+    public String showSelectGoods(Model model, @RequestParam(value = "orderid", required = false) Long id,
+                                  @ModelAttribute(value = "order") Order order) {
+        Foo foo = new Foo();
+        model.addAttribute("items", goodsService.getAllGoods());
+        model.addAttribute("order", order);
+        model.addAttribute("foo", foo);
+        return "items-select";
     }
 
 }

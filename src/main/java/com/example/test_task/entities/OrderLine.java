@@ -9,12 +9,12 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "goods_id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "goods_id")
     private Goods goods;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
     private int count;

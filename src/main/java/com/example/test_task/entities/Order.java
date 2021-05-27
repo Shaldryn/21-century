@@ -2,7 +2,8 @@ package com.example.test_task.entities;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -22,14 +23,25 @@ public class Order {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<OrderLine> orderLines;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    private Set<OrderLine> orderLines = new HashSet<>();
 
-    public List<OrderLine> getOrderLines() {
+    public void add(OrderLine item) {
+        if (item != null) {
+            if (orderLines == null) {
+                orderLines = new HashSet<>();
+            }
+
+            orderLines.add(item);
+            item.setOrder(this);
+        }
+    }
+
+    public Set<OrderLine> getOrderLines() {
         return orderLines;
     }
 
-    public void setOrderLines(List<OrderLine> orderLines) {
+    public void setOrderLines(Set<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
 
